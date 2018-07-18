@@ -1,7 +1,22 @@
-﻿
+﻿@model Tuple<IList<Park>, IList<Survey>>
 @{
     ViewData["Title"] = "SurveyResults";
+    var codes = Model.Item1;
+    var results = Model.Item2;
 }
 
-<h2>SurveyResults</h2>
+<h2>Survey Results</h2>
+
+@foreach (var result in results)
+{
+    foreach (var code in codes)
+    {
+        if (code.ParkCode == result.ParkCode)
+        {
+            <p>@code.ParkName</p>
+            <img src="~/images/parks/@(result.ParkCode).jpg"/>
+            <p>TALLY OF VOTES GOES HERE</p>
+        }
+    }
+}
 

@@ -16,6 +16,36 @@ namespace Capstone.Web.DAL
 		    this.connectionString = connectionString;
 	    }
 
+		public Dictionary<string,string> GetParkCodesAndNames()
+	    {
+			Dictionary<string,string> kvp = new Dictionary<string, string>();
+
+		    string getResultsQuery = "SELECT parkCode, parkName FROM park;";
+
+		    try
+		    {
+			    using (SqlConnection connection = new SqlConnection(connectionString))
+			    {
+				    connection.Open();
+
+					SqlCommand retrieveResults = new SqlCommand(getResultsQuery,connection);
+
+				    SqlDataReader reader = retrieveResults.ExecuteReader();
+
+				    while (reader.Read())
+				    {
+						kvp.Add(Convert.ToString(reader["parkCode"]),Convert.ToString(reader["parkName"]));
+				    }
+			    }
+		    }
+		    catch (SqlException e)
+		    {
+			    throw;
+		    }
+
+		    return kvp;
+	    }
+
 	    public IList<Park> GetAllParks()
 	    {
 		    string getParksQuery = "SELECT * FROM park;";
