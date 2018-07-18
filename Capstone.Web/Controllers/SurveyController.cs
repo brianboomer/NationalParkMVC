@@ -39,15 +39,15 @@ namespace Capstone.Web.Controllers
 		[HttpGet]
 	    public IActionResult SurveyResults()
 		{
-			var codes = dal.GetAllParks();
+			//var codes = dal.GetAllParks();
 
 			var results = sdal.GetSurveyResults();
 
-			var combinedResults = Tuple.Create(codes, results);
+			//var combinedResults = Tuple.Create(codes, results);
 			
 
 
-			return View(combinedResults);
+			return View(results);
 	    }
 
 

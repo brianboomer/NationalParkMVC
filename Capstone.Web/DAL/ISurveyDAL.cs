@@ -10,7 +10,7 @@ namespace Capstone.Web.DAL
     {
 
 	    void AddSurveyResults(string parkCode, string emailAddress, string state, string activityLevel);
-	    IList<Survey> GetSurveyResults();
+	    IList<SurveyResult> GetSurveyResults();
 
 
     }

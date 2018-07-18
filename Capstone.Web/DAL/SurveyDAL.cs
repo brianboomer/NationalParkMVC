@@ -45,12 +45,13 @@ namespace Capstone.Web.DAL
 
 	    }
 
-	    public IList<Survey> GetSurveyResults()
+	    public IList<SurveyResult> GetSurveyResults()
 	    {
 
-		    string getSurveyQuery = "SELECT parkCode, COUNT(parkCode) as voteTally FROM survey_result GROUP BY parkCode ORDER BY voteTally DESC";
+		    string getSurveyQuery =
+				"SELECT parkName, park.parkCode as codeOfPark, COUNT(parkName) as voteTally FROM survey_result INNER JOIN park ON park.parkCode = survey_result.parkCode GROUP BY parkName, park.parkCode ORDER BY voteTally DESC;";
 
-			List<Survey> surveys = new List<Survey>();
+			List<SurveyResult> surveyResults = new List<SurveyResult>();
 
 		    try
 		    {
@@ -64,15 +65,13 @@ namespace Capstone.Web.DAL
 
 				    while (reader.Read())
 				    {
-					    Survey survey = new Survey();
+					    SurveyResult surveyResult = new SurveyResult();
 
-					    //survey.SurveyID = Convert.ToInt32(reader["surveyId"]);
-					    survey.ParkCode = Convert.ToString(reader["parkCode"]);
-					    //survey.EmailAddress = Convert.ToString(reader["emailAddress"]);
-					    //survey.State = Convert.ToString(reader["state"]);
-					    //survey.ActivityLevel = Convert.ToString(reader["activityLevel"]);
+					    surveyResult.ParkName = Convert.ToString(reader["parkName"]);
+					    surveyResult.ParkCode = Convert.ToString(reader["codeOfPark"]);
+					    surveyResult.VoteTally = Convert.ToInt32(reader["voteTally"]);
 
-					    surveys.Add(survey);
+					    surveyResults.Add(surveyResult);
 
 				    }
 			    }
@@ -83,7 +82,7 @@ namespace Capstone.Web.DAL
 		    }
 
 
-			return surveys;
+			return surveyResults;
 	    }
     }
 }
