@@ -38,13 +38,13 @@
         </div>
     </nav>
 
-    <partial name="_CookieConsentPartial" />
+     @*<partial name="_CookieConsentPartial" />*@
 
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - Capstone.Web</p>
+            <p>&copy; @DateTime.Now.Year - Capstone.Web</p>
         </footer>
     </div>
 
