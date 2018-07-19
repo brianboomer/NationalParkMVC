@@ -62,3 +62,63 @@ body {
 a:hover {
     text-decoration: none;
 }
+
+/*Detail Page*/
+
+.detailWrapper {
+    display: grid;
+    grid-template-rows: auto auto auto;
+}
+
+.imgDisplay {
+    grid-row: 1/2;
+}
+
+#imgDimension {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /*below properties appear to have no effect*/
+    width: 50vw;
+    height: auto;
+}
+
+.parkInfo {
+    grid-row: 2/3;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.weatherDisplay {
+    grid-row: 3/4;
+    display: grid;
+    grid-template-columns: 30vw auto auto auto auto;
+}
+
+.weatherDisplayDay {
+    grid-area: auto;
+    border-width: 1px;
+    border-style: solid solid solid solid;
+    padding: 0 1px 0 1px;
+}
+
+.weatherimage {
+    width: 10vw;
+    height: auto;
+}
+
+.initialDayBottom {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.initialDayCell {
+    grid-area: auto;
+}
+
+.initialDayImage {
+    width: 15vw;
+    height: auto;
+
+    }
+

@@ -1,33 +1,77 @@
-﻿@model Park
+﻿@using Remotion.Linq.Parsing.Structure.IntermediateModel
+@model Tuple<Park, IList<Weather>>
 @{
     ViewData["Title"] = "Detail";
+    var park = Model.Item1;
+    var forecast = Model.Item2;
+    int count = 0;
 }
 
-<h1 class="title">@Model.ParkName</h1>
+<h1 class="title">@park.ParkName</h1>
 
-<div class="wrapper">
-    
-    <img class="portrait" src="~/images/parks/@(Model.ParkCode).jpg"/>
-    
-  
-    <p>Located in beautiful @Model.State</p>
-    <p>@Model.ParkDescription</p>
-    <p>@Model.Acreage</p>
-    <p>@Model.ElevationInFeet</p>
-    <p>@Model.MilesOfTrail</p>
-    <p>@Model.NumberOfCampsites</p>
-    <p>@Model.Climate</p>
-    <p>@Model.YearFounded</p>
-    <p>@Model.AnnualVisitorCount</p>
-    <p>@Model.InspirationalQuote</p>
-    <p>@Model.InspirationalQuoteSource</p>
-    <p>@Model.EntryFee</p>
-    <p>@Model.NumberOfAnimalSpecies</p>
-    
+<div class="detailWrapper">
+
+    <div class="imgDisplay">
+        <img id="imgDimension" src="~/images/parks/@(park.ParkCode).jpg" />
+    </div>
+
+    <div class="parkInfo">
+        <p><span style="font-weight: bold">Located:</span> @park.State</p>
+        <p><span style="font-weight: bold">Description:</span> @park.ParkDescription</p>
+        <p><span style="font-weight: bold">Acreage:</span> @park.Acreage</p>
+        <p><span style="font-weight: bold">Elevation:</span> @park.ElevationInFeet ft.</p>
+        <p><span style="font-weight: bold">Miles of Trail:</span> @park.MilesOfTrail</p>
+        <p><span style="font-weight: bold">Number of Campsites:</span> @park.NumberOfCampsites</p>
+        <p><span style="font-weight: bold">Climate:</span> @park.Climate</p>
+        <p><span style="font-weight: bold">Year Founded:</span> @park.YearFounded</p>
+        <p><span style="font-weight: bold">Annual Visitors:</span> @park.AnnualVisitorCount</p>
+        <p><span style="font-weight: bold">Park Quote:</span> @park.InspirationalQuote</p>
+        <p><span style="font-weight: bold">Author:</span> -@park.InspirationalQuoteSource</p>
+        <p><span style="font-weight: bold">Entry Fee:</span> $@park.EntryFee</p>
+        <p><span style="font-weight: bold">Number of Animal Species:</span> @park.NumberOfAnimalSpecies</p>
+    </div>
     
 
-    <p>Weather Placeholder</p>
-    
+    <div class="weatherDisplay">
+        @foreach (var cast in forecast)
+        {
+            if (count == 0)
+            {
+                <div class="initialDay" style="text-align: center">
+                    <p style="font-weight:bold">Today's Forecast</p>
+                    <img class="img-responsive initialDayImage center" src="~/images/weather/@(cast.Forecast).png" />
+
+                    <div class="initialDayBottom">
+
+                        <div class="initialDayCell">
+                            <p style="font-weight: bold">Weather</p>
+                            <p>@cast.Forecast</p>
+                        </div>
+                        <div class="initialDayCell">
+                            <p style="font-weight: bold">Temperature</p>
+                            High @cast.High<BR />
+                            Low @cast.Low
+                        </div>
+                    </div>
+                </div>
+                count++;
+            }
+            else
+            {
+                <div class="weatherDisplayDay center" style="text-align: center">
+                    <p>@(cast.Day - 1) day(s) from now</p>
+                    <img class="img-responsive weatherimage" src="~/images/weather/@(cast.Forecast).png" />
+                    <p style="font-weight:bold">Weather</p>
+                    <p>@cast.Forecast</p>
+                    <p style="font-weight:bold">Temperature</p>
+                    High @cast.High<BR />
+                    Low @cast.Low
+                </div>
+            }
+
+        }
+
+    </div>
+
 
 </div>
-

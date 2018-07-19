@@ -141,6 +141,43 @@ namespace Capstone.Web.DAL
 		    return park;
 	    }
 
+	    public IList<Weather> GetFiveDayForecast(string parkCode)
+	    {
+		    string dateTimeQuery = "SELECT * FROM weather WHERE parkCode = @parkCode;";
 
+		    IList<Weather> forecast = new List<Weather>();
+
+		    try
+		    {
+			    using (SqlConnection connection = new SqlConnection(connectionString))
+			    {
+				    connection.Open();
+
+				    SqlCommand command = new SqlCommand(dateTimeQuery, connection);
+				    command.Parameters.AddWithValue("@parkCode", parkCode);
+
+				    SqlDataReader reader = command.ExecuteReader();
+
+				    while (reader.Read())
+				    {
+					    Weather weather = new Weather();
+
+					    weather.ParkCode = Convert.ToString(reader["parkCode"]);
+					    weather.Day = Convert.ToInt32(reader["fiveDayForecastValue"]);
+					    weather.Low = Convert.ToInt32(reader["low"]);
+					    weather.High = Convert.ToInt32(reader["high"]);
+					    weather.Forecast = Convert.ToString(reader["forecast"]);
+
+					    forecast.Add(weather);
+				    }
+			    }
+		    }
+		    catch (SqlException e)
+		    {
+			    throw;
+		    }
+
+		    return forecast;
+	    }
 	}
 }

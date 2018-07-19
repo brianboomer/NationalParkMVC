@@ -8,7 +8,7 @@
 
 @foreach (Park park in Model)
 {
-<a asp-controller="Home" asp-action="Detail" asp-route-id="@park.ParkCode">
+<a asp-controller="Home" asp-action="Detail" asp-route-parkCode="@park.ParkCode">
     <div class="wrapper">
 
         <div class="column-index">

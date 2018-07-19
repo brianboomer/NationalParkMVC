@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,15 +25,23 @@ namespace Capstone.Web.Controllers
 	        return View(parks);
         }
 
-	    public IActionResult Detail(string id)
+	    public IActionResult Detail(string parkCode)
 	    {
 
-		    var park = dal.GetParkDetails(id);
+		    var park = dal.GetParkDetails(parkCode);
+		    var forecast = dal.GetFiveDayForecast(parkCode);
 
-		    return View(park);
+			Tuple<Park,IList<Weather>> data = new Tuple<Park, IList<Weather>>(park, forecast);
+
+			return View(data);
 	    }
 
-	   
+		public IActionResult GetParkWeather(string parkCode)
+		{
+			var forecast = dal.GetFiveDayForecast(parkCode);
+
+			return RedirectToAction();
+		}
 
 
 
