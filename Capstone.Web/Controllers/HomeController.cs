@@ -25,13 +25,13 @@ namespace Capstone.Web.Controllers
 	        return View(parks);
         }
 
-	    public IActionResult Detail(string parkCode)
+	    public IActionResult Detail(string parkCode, bool isFahrenheit)
 	    {
 
 		    var park = dal.GetParkDetails(parkCode);
 		    var forecast = dal.GetFiveDayForecast(parkCode);
 
-			Tuple<Park,IList<Weather>> data = new Tuple<Park, IList<Weather>>(park, forecast);
+			Tuple<Park,IList<Weather>,bool> data = new Tuple<Park, IList<Weather>, bool>(park, forecast, isFahrenheit);
 
 			return View(data);
 	    }

@@ -12,5 +12,8 @@ namespace Capstone.Web.Models
 		public int Low { get; set; }
 		public int High { get; set; }
 		public string Forecast { get; set; }
+
+	    public int HighC => (High - 32) * 5 / 9;
+		public int LowC => (Low - 32) * 5 / 9;
     }
 }
