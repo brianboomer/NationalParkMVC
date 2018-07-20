@@ -45,70 +45,129 @@
 
             if (count == 0)
             {
-                <div class="initialDay" style="text-align: center">
-                    <p style="font-weight:bold">Today's Forecast</p>
-                    <img class="img-responsive initialDayImage center" src="~/images/weather/@(cast.Forecast).png" />
+        <div class="initialDay" style="text-align: center">
+            <p style="font-weight:bold">Today's Forecast</p>
+            <img class="img-responsive initialDayImage center" src="~/images/weather/@(cast.Forecast).png" />
 
-                    <div class="initialDayBottom">
-
-                        <div class="initialDayCell">
-                            <p style="font-weight: bold">Weather</p>
-                            <p>@cast.Forecast</p>
-                        </div>
-                        <div class="initialDayCell">
-                            <p style="font-weight: bold">Temperature</p>
-                            @if (temperature == 1)
-                            {
-                                <span>High @cast.High</span>
-                                <p>Low @cast.Low</p>
-                            }
-                            else
-                            {
-                                <span>High @cast.HighC</span>
-                                <p>Low @cast.LowC</p>
-                            }
-
-                        </div>
-                        <div class="initialDayCell">
-
-                            <form asp-controller="Home" asp-action="Detail" method="post" asp-route-parkCode="@park.ParkCode">
-                                <button class="btn btn-primary btn-sm">Celsius</button>
-                                <input type="hidden" value="0" name="preference" />
-
-                            </form>
-
-                            <form asp-controller="Home" asp-action="Detail" method="post" asp-route-parkCode="@park.ParkCode">
-                                <button class="btn btn-primary btn-sm" style="margin-left: 1rem;">Fahrenheit</button>
-                                <input type="hidden" value="1" name="preference" />
-
-                            </form>
+            @if (cast.Forecast == "snow")
+            {
+                <p>Pack snow gear today.</p>
+            }
+            @if (cast.Forecast == "rain")
+            {
+                <p>Pack rain gear today and wear waterproof shoes.</p>
+            }
+            @if (cast.Forecast == "thunderstorms")
+            {
+                <p>Seek shelter and avoid hiking on exposed ridges.</p>
+            }
+            @if (cast.Forecast == "sunny")
+            {
+                <p>Pack sunblock today.</p>
+            }
+            @if (cast.High > 75)
+            {
+                <p>Bring extra water today.</p>
+            }
+            @if (cast.High - cast.Low > 20)
+            {
+                <p>Wear breatheable layers today.</p>
+            }
+            @if (cast.Low < 20)
+            {
+                <p>Be aware of freezing temperatures today.</p>
+            }
 
 
-                        </div>
+
+                <div class="initialDayBottom">
+
+                    <div class="initialDayCell">
+                        <p style="font-weight: bold">Weather</p>
+                        <p>@cast.Forecast</p>
+                    </div>
+                    <div class="initialDayCell">
+                        <p style="font-weight: bold">Temperature</p>
+                        @if (temperature == 1)
+                        {
+                            <span>High @cast.High</span>
+                            <p>Low @cast.Low</p>
+                        }
+                        else
+                        {
+                            <span>High @cast.HighC</span>
+                            <p>Low @cast.LowC</p>
+                        }
 
                     </div>
+                    <div class="initialDayCell">
+
+                        <form asp-controller="Home" asp-action="Detail" method="post" asp-route-parkCode="@park.ParkCode">
+                            <button class="btn btn-primary btn-sm">Celsius</button>
+                            <input type="hidden" value="0" name="preference" />
+
+                        </form>
+
+                        <form asp-controller="Home" asp-action="Detail" method="post" asp-route-parkCode="@park.ParkCode">
+                            <button class="btn btn-primary btn-sm" style="margin-left: 1rem;">Fahrenheit</button>
+                            <input type="hidden" value="1" name="preference" />
+
+                        </form>
+
+
+                    </div>
+
                 </div>
+        </div>
                 count++;
             }
             else
             {
-                <div class="weatherDisplayDay center" style="text-align: center">
-                    <p>@(cast.Day - 1) day(s) from now</p>
-                    <img class="img-responsive weatherimage" src="~/images/weather/@(cast.Forecast).png" />
-                    <p style="font-weight:bold">Weather</p>
-                    <p>@cast.Forecast</p>
-                    <p style="font-weight:bold">Temperature</p>
-                    @if (temperature == 1)
-                    {
-                        <span>High @cast.High</span>
-                        <p>Low @cast.Low</p>
-                    }
-                    else
-                    {
-                        <span>High @cast.HighC</span>
-                        <p>Low @cast.LowC</p>
-                    }
-                </div>
+        <div class="weatherDisplayDay center" style="text-align: center">
+            <p>@(cast.Day - 1) day(s) from now</p>
+            <img class="img-responsive weatherimage" src="~/images/weather/@(cast.Forecast).png" />
+            <p style="font-weight:bold">Weather</p>
+            <p>@cast.Forecast</p>
+            @if (cast.Forecast == "snow")
+            {
+                <p>Pack snow gear.</p>
+            }
+            @if (cast.Forecast == "rain")
+            {
+                <p>Pack rain gear and wear waterproof shoes.</p>
+            }
+            @if (cast.Forecast == "thunderstorms")
+            {
+                <p>Seek shelter and avoid hiking on exposed ridges.</p>
+            }
+            @if (cast.Forecast == "sunny")
+            {
+                <p>Pack sunblock.</p>
+            }
+            @if (cast.High > 75)
+            {
+                <p>Bring extra water.</p>
+            }
+            @if (cast.High - cast.Low > 20)
+            {
+                <p>Wear breatheable layers.</p>
+            }
+            @if (cast.Low < 20)
+            {
+                <p>Be aware of freezing temperatures.</p>
+            }
+            <p style="font-weight:bold">Temperature</p>
+            @if (temperature == 1)
+            {
+                <span>High @cast.High</span>
+                <p>Low @cast.Low</p>
+            }
+            else
+            {
+                <span>High @cast.HighC</span>
+                <p>Low @cast.LowC</p>
+            }
+        </div>
             }
 
         }
