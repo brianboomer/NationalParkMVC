@@ -8,78 +8,37 @@ using Capstone.Web.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Capstone.Web.Models;
 using Microsoft.AspNetCore.Http;
+using SessionCart.Web.Extensions;
 
 namespace Capstone.Web.Controllers
 {
-    public class HomeController : Controller
-    {
+	public class HomeController : Controller
+	{
 		private readonly IHomeDAL dal;
+		private const string Session_Key = "pref";
 
-	    public HomeController(IHomeDAL dal)
-	    {
-		    this.dal = dal;
-	    }
+		public HomeController(IHomeDAL dal)
+		{
+			this.dal = dal;
+		}
 
-	    public IActionResult Index()
-	    {
-		    var parks = dal.GetAllParks();
-	        return View(parks);
-        }
+		public IActionResult Index()
+		{
+			var parks = dal.GetAllParks();
+			return View(parks);
+		}
 
-	    public IActionResult Detail(string parkCode, int? preference)
-	    {
-		    if (preference.HasValue)
-		    {
-			    HttpContext.Session.SetInt32("pref", (int) preference);
-		    }
-
-		    int? pref = HttpContext.Session.GetInt32("pref");
-
-		    if (!pref.HasValue)
-		    {
-			    pref = 1;
-			    HttpContext.Session.SetInt32("pref", (int)pref);
-		    }
-
-			//if (pref == 1)
-		 //   {
-			//	pref = "f";
-
-		 //   }
-		    if (pref != 1)
-		    {
-			    pref = 0;
-		    }
-
-			HttpContext.Session.SetInt32("pref", (int)pref);
+		public IActionResult Detail(string parkCode, int? preference)
+		{
+			TempPreference temperaturePreference = GetTempPreference(preference);
 
 			var park = dal.GetParkDetails(parkCode);
-		    var forecast = dal.GetFiveDayForecast(parkCode);
+			var forecast = dal.GetFiveDayForecast(parkCode);
 
-		    //var temperaturePreference = ConvertTemperature();
-
-
-
-
-			Tuple<Park,IList<Weather>,int> data = new Tuple<Park, IList<Weather>, int>(park, forecast, (int)pref);
-
-
-
+			Tuple<Park, IList<Weather>, int> data = new Tuple<Park, IList<Weather>, int>(park, forecast, temperaturePreference.Preference);
 
 			return View(data);
-	    }
-
-		//private string GetTemperaturePreference()
-		//{
-		//	string temperaturePreference = HttpContext.Session.Get()
-		//}
-
-		//public IActionResult ConvertTemperature(string parkCode, string preference)
-		//{
-		//	HttpContext.Session.SetString("pref", preference);
-
-		//	return RedirectToAction("Detail", "Home", new { parkCode });
-		//}
+		}
 
 		public IActionResult GetParkWeather(string parkCode)
 		{
@@ -88,12 +47,31 @@ namespace Capstone.Web.Controllers
 			return RedirectToAction();
 		}
 
+		private TempPreference GetTempPreference(int? preference)
+		{
+			TempPreference tempPreference = HttpContext.Session.Get<TempPreference>(Session_Key);
 
+			if (tempPreference == null)
+			{
+				tempPreference = new TempPreference();
+				tempPreference.Preference = 1;
+				HttpContext.Session.Set(Session_Key, tempPreference);
+			}
+			else
+			{
+				if (preference.HasValue)
+				{
+					tempPreference.Preference = (int)preference;
+					HttpContext.Session.Set(Session_Key, tempPreference);
+				}
+			}
+			return tempPreference;
+		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+		public IActionResult Error()
+		{
+			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
+	}
 }
