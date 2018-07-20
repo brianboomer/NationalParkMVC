@@ -134,6 +134,10 @@ a:hover {
     height: auto;
 }
 
+a:hover + div {
+    display: block;
+}
+
 .initialDayBottom {
     display: grid;
     grid-template-columns: auto auto auto;
