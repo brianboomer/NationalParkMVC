@@ -119,7 +119,7 @@ a:hover {
 .weatherDisplay {
     grid-row: 3/4;
     display: grid;
-    grid-template-columns: 30vw auto auto auto auto;
+    grid-template-columns: 30vw 13vw 13vw 13vw 13vw;
 }
 
 .weatherDisplayDay {
@@ -127,6 +127,10 @@ a:hover {
     border-width: 1px;
     border-style: solid solid solid solid;
     padding: 0 1px 0 1px;
+}
+
+.weatherDisplayDay.p {
+    width: 100%;
 }
 
 .weatherimage {
