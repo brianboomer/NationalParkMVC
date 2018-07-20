@@ -31,6 +31,12 @@ namespace Capstone.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+			services.AddDistributedMemoryCache();
+
+	        services.AddSession();
+
+
+
 
 	        services.AddTransient<IHomeDAL>(m => new HomeDAL(@"Data Source=.\SQLEXPRESS;Initial Catalog=NPGeek;Integrated Security=True"));
 	        //services.AddTransient<IWeatherDAL>(m => new WeatherDAL(@"Data Source=.\SQLEXPRESS;Initial Catalog=NPGeek;Integrated Security=True"));
@@ -53,6 +59,8 @@ namespace Capstone.Web
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+	        app.UseSession();
 
             app.UseMvc(routes =>
             {

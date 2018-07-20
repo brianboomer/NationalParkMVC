@@ -1,15 +1,17 @@
-﻿@using Microsoft.AspNetCore.Mvc.RazorPages
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Mvc.RazorPages
 @using Microsoft.AspNetCore.Rewrite.Internal.UrlActions
 @using Microsoft.CodeAnalysis.CSharp.Syntax
 @using Remotion.Linq.Parsing.Structure.IntermediateModel
-@model Tuple<Park, IList<Weather>,bool>
+@model Tuple<Park, IList<Weather>, int>
 @{
     ViewData["Title"] = "Detail";
     var park = Model.Item1;
     var forecast = Model.Item2;
-    var isFahrenheit = Model.Item3;
-    int count = 0;
+    var temperature = Model.Item3;
     
+    int count = 0;
+
 }
 
 <h1 class="title">@park.ParkName</h1>
@@ -55,7 +57,7 @@
                 </div>
                 <div class="initialDayCell">
                     <p style="font-weight: bold">Temperature</p>
-                    @if (isFahrenheit)
+                    @if (temperature == 1)
                     {
                     <span>High @cast.High</span>
                     <p>Low @cast.Low</p>
@@ -68,9 +70,22 @@
 
 </div>
                 <div class="initialDayCell">
-                    <a asp-controller="Home" asp-action="Detail" asp-route-parkCode="@park.ParkCode" asp-route-isFahrenheit="false"><button>Deg. C</button></a><BR />
-                    <a asp-controller="Home" asp-action="Detail" asp-route-parkCode="@park.ParkCode" asp-route-isFahrenheit="true"><button>Deg. F</button></a>
+                    
+                    <form asp-controller="Home" asp-action="Detail" method="post" asp-route-parkCode="@park.ParkCode">
+                        <button class="btn btn-primary btn-sm">Celsius</button>
+                        <input type="hidden" value="0" name="preference"/>
+                        
+                    </form>
+                    
+                    <form asp-controller="Home" asp-action="Detail" method="post" asp-route-parkCode="@park.ParkCode">
+                        <button class="btn btn-primary btn-sm" style="margin-left: 1rem;">Fahrenheit</button>
+                        <input type="hidden" value="1" name="preference"/>
+
+                    </form>
+                    
+                    
                 </div>
+                
             </div>
         </div>
                         count++;
@@ -83,7 +98,7 @@
             <p style="font-weight:bold">Weather</p>
             <p>@cast.Forecast</p>
             <p style="font-weight:bold">Temperature</p>
-            @if (isFahrenheit)
+            @if (temperature == 1)
             {
                 <span>High @cast.High</span>
                 <p>Low @cast.Low</p>
