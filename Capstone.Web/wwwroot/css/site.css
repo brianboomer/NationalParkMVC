@@ -38,15 +38,42 @@ body {
 
 .wrapper {
     display: grid;
-    grid-template-columns : 40vw 40vw;
+    grid-template-columns: 35vw 35vw;
+    justify-content: space-around;
+    text-align: center;
 }
 
-.column-index {
-    max-width: 100%;
+.wrapper-row {
+    display: flex;
+    flex-direction: column;
     height: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.wrapper-row:hover {
+        transform: scale(1.1);
+    }
+
+.column-index {
+    border: 13px;
+    border-style: solid;
+    width: auto;
+    height: 600px;
+}
+
+.column-index-bottom {
+    border: 13px;
+    border-style: solid;
+    border-top: none;
+    width: auto;
+    height: 300px;
     margin-top: 1vh;
     margin-bottom: 1vh;
+}
 
+.index-image {
+    width: 100%;
 }
 
 .center {
@@ -121,4 +148,13 @@ a:hover {
     height: auto;
 
     }
+
+.parallax {
+    background-image: url("/images/MountainBackground.jpg");
+    height: 400px;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
